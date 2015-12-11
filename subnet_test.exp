@@ -1,0 +1,29 @@
+#!/usr/bin/expect -f
+
+set hostname [lindex $argv 0]
+set username [lindex $argv 1]
+set password [lindex $argv 2]
+set vlan [lindex $argv 3]
+
+log_user 0
+send_user "\n"
+
+spawn ssh -o StrictHostKeyChecking=no $username\@$hostname
+
+expect {
+timeout { send_user "n\Operation Timed Out"; exit 1 }
+eof { send_user "\nOperation Failed"; exit 1 }
+"*#" {}
+"*assword:" { send "$password\n" }
+}
+expect "*#"
+expect *
+send "sh run int vlan $vlan | inc \"ip address\"\n"
+expect "*#"
+set output $expect_out(buffer);
+send_user "\n"
+log_user 1
+send_user $expect_out(buffer)
+send_user "\n"
+log_user 0
+exit
