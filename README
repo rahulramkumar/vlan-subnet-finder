@@ -1,0 +1,5 @@
+HOW TO RUN
+Download both files to a folder on your machine. 
+create a file in the directory called vlan-list.txt and fill it with vlans
+run $ ./subnet_test.sh
+EOF
