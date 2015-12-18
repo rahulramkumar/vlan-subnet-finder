@@ -1,0 +1,21 @@
+#!/usr/bin/expect -f
+
+set vlan [lindex $argv 0]
+set ip [lindex $argv 1]
+set router [lindex $argv 2]
+set username [lindex $argv 3]
+set dbserverhostname [lindex $argv 4]
+set ssh_port [lindex $argv 5]
+
+log_user 1
+send_user "\n"
+
+spawn ssh -p $ssh_port $username\@$dbserverhostname "psql -t -d testdb -c $\"insert into testtable1 (vlan, ip_space, router) values ($vlan, \'$ip\', \'$router\');\""
+
+expect {
+"INSERT*" {send_user "Completed\n"}
+"ERROR*" {send_user "DB add failed\n"}
+  }
+
+
+exit
