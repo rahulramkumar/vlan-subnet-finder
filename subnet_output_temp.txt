@@ -1,7 +1,0 @@
-
-
-sh run int vlan 691 | inc "ip address"
-  ip address 155.101.210.2/25
-  ip address 172.31.112.178/28 secondary
-  ip address 172.31.113.2/27 secondary
-r1-ebc-ebc#
